@@ -100,7 +100,6 @@ be stored as command followed by the number of previous statements run plus one.
 These examples require Essentia to be installed:
 
 queryfile <- file("examplequery.sh","w")
-cat("ess instance local \n",file=queryfile)
 cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #-notitle \n",file=queryfile)
 cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" \n", file=queryfile)
 cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #Rignore \n", file=queryfile)
@@ -115,11 +114,11 @@ This example requires Essentia to have selected a datastore containing purchase 
 
 Store these lines as querypurchase.sh:
 
-ess query "select price,count(refID) from purchase:2014-09-01:2014-09-15 \
+ess query "select count(refID) from purchase:2014-09-01:2014-09-15 \
 where articleID>=46 group by price" #Rinclude
 ess query "select count(distinct userID) from purchase:2014-09-01:2014-09-15 \
 where articleID>=46" #Rinclude
-ess query "select userID,count(refID) from purchase:2014-09-01:2014-09-15 \
+ess query "select count(refID) from purchase:2014-09-01:2014-09-15 \
 where articleID>=46 group by userID" #Rinclude
 ess query "select * from purchase:*:* where articleID <= 20" #Rinclude #R#querystream#R#
 
@@ -150,15 +149,16 @@ ess task exec "aq_udb -exp logsapache1:vector1 -sort pagecount -dec" --debug
 # 2014-12-07, convert them to csv, return them to R, and store them into an R dataframe singlefile.
 ess task stream 125accesslogs '2014-12-07' '2014-12-07' "tail -5 \
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \"' \
-s,clf,hl1:req_line1 sep:'\" ' i:res_status sep:' ' i:res_size sep:' \"' \
-s,clf:referrer sep:'\" \"' s,clf:user_agent sep:'\"' X | cat -" #Rinclude #R#singlefile#R#
+s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\" ' i:res_status sep:' ' \
+i:res_size sep:' \"' s,clf:referrer sep:'\" \"' \
+s,clf:user_agent sep:'\"' X | cat -" #Rinclude #R#singlefile#R#
 
 # Stream the last five lines of the files in category 125accesslogs between dates 2014-11-30 and
 # 2014-12-07, convert them to csv, and save them into R dataframes apachefiles1 and apachefiles2.
 ess task stream 125accesslogs '2014-11-30' '2014-12-07' "tail -5 \
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \"' \
-s,clf,hl1:req_line1 sep:'\" ' i:res_status sep:' ' i:res_size sep:' \"' \
-s,clf:referrer sep:'\" \"' s,clf:user_agent sep:'\"' X -notitle | cat -" \
+s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\" ' i:res_status sep:' ' \
+i:res_size sep:' \"' s,clf:referrer sep:'\" \"' s,clf:user_agent sep:'\"' X -notitle | cat -" \
 #Rinclude #R#apachefiles#R# #Rseparate
 
 -----------------------------------------------
