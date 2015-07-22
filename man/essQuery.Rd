@@ -10,20 +10,20 @@ essQuery(essentia, aq="", flags="")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{essentia}{
-The essentia command to run. The options are "ess task stream
-category startdate enddate", "ess task exec", and "ess query".
+The essentia command to run. The options are "ess stream
+category startdate enddate", "ess exec", and "ess query".
 
 Each stream or query command can be used to stream any number of files
 directly into your R analysis. Alternatively, each stream command
 can save multiple files into separate R dataframes, one file per dataframe.
 
-The default value for the essentia argument is "ess task
+The default value for the essentia argument is "ess
 exec".
 
 }
   \item{aq}{
 This can be any combination of the aq_tools and standard UNIX
-commands for "ess task ..." statements or an sql-like statement 
+commands for "ess stream" and "ess exec" statements or an sql-like statement 
 for "ess query" statements. However, the output MUST be in a 
 csv format if you want R to capture the output. If you only want to 
 run the command without R capturing the output, add "#Rignore" to the
@@ -34,17 +34,17 @@ flags argument.
 Any of the essentia flags can be used here in addition to any
 of these RESS-specific flags:
 
-\code{#Rignore} : Ignore an 'ess task exec' statement. Do not
+\code{#Rignore} : Ignore an 'ess exec' statement. Do not
 capture the output of the statement into R.
 
-\code{#Rinclude} : Include an 'ess task stream' or 'ess query' statement. 
+\code{#Rinclude} : Include an 'ess stream' or 'ess query' statement. 
 Capture the output of the statement into R.
 
 \code{#-notitle} : Tell R not to use the first line of the output
 as the header.
 
 \code{#Rseparate} : Can be used when saving multiple files into an
-R dataframe using an 'ess task stream' command. Saves each
+R dataframe using an 'ess stream' command. Saves each
 file into a different R dataframe, entitled command1 to
 commandN, where N is the number of files.
 
@@ -83,8 +83,8 @@ any_nameN+1 if #R#any_name#R# is also used.
 
 }
 \references{
-See our website at www.auriq.net or our documentation at
-www.auriq.net/documentation
+See our website at www.auriq.com or our documentation at
+www.auriq.com/documentation
 
 }
 \author{
@@ -96,7 +96,7 @@ Ben Waxer, Data Scientist with Auriq Systems.
 
 These examples require Essentia to be installed:
 
-fullexec <- essQuery("ess task exec", "echo -e '11,12,13\\n4,5,6\\n7,8,9' ","#-notitle")
+fullexec <- essQuery("ess exec", "echo -e '11,12,13\\n4,5,6\\n7,8,9' ","#-notitle")
 print(fullexec)
 defaultexec <- essQuery("echo -e '11,12,13\\n4,5,6\\n7,8,9' ","#-notitle")
 print(defaultexec)
@@ -131,12 +131,12 @@ The following example requires Essentia to be installed with apache log data sto
 command1 <- essQuery("aq_udb -exp logsapache3:vector3", "--debug")
 
 # Query the Essentia database logsapache1 and return the sorted contents of vector1 into R.
-command2 <- essQuery("ess task exec", "aq_udb -exp logsapache1:vector1 -sort pagecount -dec", "\\
+command2 <- essQuery("ess exec", "aq_udb -exp logsapache1:vector1 -sort pagecount -dec", "\\
 --debug")
 
 # Stream the last five lines of the file in category 125accesslogs between dates 2014-12-07 and
 # 2014-12-07, convert them to csv, return them to R, and store them into an R dataframe singlefile.
-singlefile <- essQuery("ess task stream 125accesslogs '2014-12-07' '2014-12-07'","tail -5 \\
+singlefile <- essQuery("ess stream 125accesslogs '2014-12-07' '2014-12-07'","tail -5 \\
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \\\"' \\
 s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\\\" ' i:res_status sep:' ' \\
 i:res_size sep:' \\\"' s,clf:referrer sep:'\\\" \\\"' \\
@@ -144,7 +144,7 @@ s,clf:user_agent sep:'\\\"' X | cat -","#Rinclude")
 
 # Stream the last five lines of the files in category 125accesslogs between dates 2014-11-30 and 
 # 2014-12-07, convert them to csv, and save them into R dataframes apachefiles1 and apachefiles2.
-essQuery("ess task stream 125accesslogs '2014-11-30' '2014-12-07'","tail -5 \\
+essQuery("ess stream 125accesslogs '2014-11-30' '2014-12-07'","tail -5 \\
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \\\"' \\
 s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\\\" ' i:res_status sep:' ' \\
 i:res_size sep:' \\\"' s,clf:referrer sep:'\\\" \\\"' \\

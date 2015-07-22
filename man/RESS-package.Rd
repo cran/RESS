@@ -24,8 +24,8 @@ Essentia can be downloaded for free at http://www.auriq.com/documentation/source
 \tabular{ll}{
 Package: \tab RESS\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2015-06-08\cr
+Version: \tab 1.2\cr
+Date: \tab 2015-07-22\cr
 License: \tab LGPL-3 \cr
 }
 }

@@ -3,10 +3,10 @@ essQuery <- function(essentia, aq = "", flags = "") {
     if (substr(essentia, 1, 3) != "ess") {
       flags <- aq
       aq <- essentia
-      essentia <- "ess task exec"
+      essentia <- "ess exec"
     }
-    if (((substr(essentia, 1, 13) == "ess task exec") && (!grepl("#Rignore", flags))) || ((substr(essentia, 1, 15) == "ess task stream" || substr(essentia, 1, 9) == "ess query") && (grepl("#Rinclude", flags)))) {
-      if (substr(essentia, 1, 8) == "ess task") {
+    if (((substr(essentia, 1, 8) == "ess exec") && (!grepl("#Rignore", flags))) || ((substr(essentia, 1, 10) == "ess stream" || substr(essentia, 1, 9) == "ess query") && (grepl("#Rinclude", flags)))) {
+      if ((substr(essentia, 1, 10) == "ess stream") || (substr(essentia, 1, 8) == "ess exec")) {
 	      aq <- paste(aq, "; echo 'RSTOPHERE'", sep = "")
       }
       else { flags <- paste("; echo 'RSTOPHERE'", flags, sep=" ") }
@@ -21,7 +21,9 @@ essQuery <- function(essentia, aq = "", flags = "") {
         varname <- substr(line, titleindex[[1]] + 3, titleindex[[2]] - 1)
         remove(titleindex)
       }
-      t2 <- read.csv(pipe(line, open = "r"), header = colspec, sep = ",", quote = "\"'", comment.char = "#", blank.lines.skip = FALSE, allowEscapes = TRUE, skip = 0)
+      pipedline <- pipe(line, open = "r")
+      t2 <- read.csv(pipedline, header = colspec, sep = ",", quote = "\"'", comment.char = "#", blank.lines.skip = FALSE, allowEscapes = TRUE, skip = 0)
+      close(pipedline)
       index <- 1
       t3 <- NULL
       separate <- grepl(" #Rseparate", line)

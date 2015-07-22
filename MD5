@@ -1,7 +1,7 @@
-a2d40fb45b64b06a0acbdf23774ba5f1 *DESCRIPTION
-8b54e5a89fbda3af5e077053d40bec76 *NAMESPACE
-3f09673191c6a11b6cbf72b7d3d2c13d *R/essquery.R
-3a9c05e4fbfb19d8f4b9fb0960cf22ad *R/readudb.R
-dc60ab8a794a42fff8b9556b29d3fa45 *man/RESS-package.Rd
-bdefd2d67e6237047d464c0a2ef0aaf4 *man/essQuery.Rd
-43851cf8abcc384b0574712affec974c *man/read.udb.Rd
+3d432d0aa0fd1296ae5438326e51a60e *DESCRIPTION
+44c84a05707cf869df9f980a6608076d *NAMESPACE
+ee28dfe04a324d2c7fc8f01faa389c66 *R/essquery.R
+1db4e347bd34219700f6155b6127310d *R/readudb.R
+912be26da21fa36850488242117a2692 *man/RESS-package.Rd
+8a73d345d69918bc103be0adf7e29823 *man/essQuery.Rd
+d3b4b5ccb5af0c663264a3fee416d1cd *man/read.udb.Rd

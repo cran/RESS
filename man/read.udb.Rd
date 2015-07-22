@@ -16,9 +16,9 @@ read.udb(file, linenumber = "all")
 \arguments{
   \item{file}{
 The file containing the essentia commands you want to run.
-'ess task stream' and 'ess query' statements will have their output ignored
+'ess stream' and 'ess query' statements will have their output ignored
 by R unless there is a '#Rinclude' flag somehwere in the
-statement line. 'ess task exec' statements will have their
+statement line. 'ess exec' statements will have their
 output included unless there is a '#Rignore' flag somewhere
 in the statement line.
 
@@ -42,11 +42,11 @@ c(first_line_number, second_line_number, ....).
 read.udb reads all of the statements in a file (unless linenumber
 is specified, see above) and captures the output of the specified
 commands into R dataframes. By default only the output of 'ess
-task exec' statements is captured and it's stored in R dataframes
+exec' statements is captured and it's stored in R dataframes
 command1 to commandN, where N is the number of captured
 statements.
 
-You can include 'ess task stream' or 'ess query' statements by adding a
+You can include 'ess stream' or 'ess query' statements by adding a
 '#Rinclude' flag. This method can be used to stream multiple files
 into R for data exploration or analysis.  If you plan to run
 multiple statements that may be somewhat related to each other,
@@ -60,8 +60,8 @@ commands in file.
 
 }
 \references{
-See our website at www.auriq.net or our documentation at
-www.auriq.net/documentation.
+See our website at www.auriq.com or our documentation at
+www.auriq.com/documentation.
 
 }
 \author{
@@ -70,17 +70,17 @@ Ben Waxer, Data Scientist with Auriq Systems.
 \note{
 The flags added to the essentia commands in file can include:
 
-\code{#Rignore} : Ignore an 'ess task exec' statement. Do not
+\code{#Rignore} : Ignore an 'ess exec' statement. Do not
 capture the output of the statement into R.
 
-\code{#Rinclude} : Include an 'ess task stream' or 'ess query' statement. Capture
+\code{#Rinclude} : Include an 'ess stream' or 'ess query' statement. Capture
 the output of the statement into R.
 
 \code{#-notitle} : Tell R not to use the first line of the output
 as the header.
 
 \code{#Rseparate} : Can be used when saving multiple files into an
-R dataframe using an 'ess task stream' command. Saves each
+R dataframe using an 'ess stream' command. Saves each
 file into a different R dataframe.
 
 \code{#filelist} : Causes an extra dataframe to be stored in R that saves
@@ -100,9 +100,9 @@ be stored as command followed by the number of previous statements run plus one.
 These examples require Essentia to be installed:
 
 queryfile <- file("examplequery.sh","w")
-cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #-notitle \n",file=queryfile)
-cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" \n", file=queryfile)
-cat("ess task exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #Rignore \n", file=queryfile)
+cat("ess exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #-notitle \n",file=queryfile)
+cat("ess exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" \n", file=queryfile)
+cat("ess exec \"echo -e '11,12,13\\n4,5,6\\n7,8,9'\" #Rignore \n", file=queryfile)
 read.udb("examplequery.sh")
 print(command1)
 print(command2)
@@ -140,14 +140,14 @@ The following example requires Essentia to be installed with apache log data sto
 Store the following lines as queryapache.sh:
 
 # Query the Essentia database logsapache3 and save the contents of vector3 in R as command1.
-ess task exec "aq_udb -exp logsapache3:vector3" --debug
+ess exec "aq_udb -exp logsapache3:vector3" --debug
 
 # Query the Essentia database logsapache1 and save the sorted contents of vector1 in R as command2.
-ess task exec "aq_udb -exp logsapache1:vector1 -sort pagecount -dec" --debug
+ess exec "aq_udb -exp logsapache1:vector1 -sort pagecount -dec" --debug
 
 # Stream the last five lines of the file in category 125accesslogs between dates 2014-12-07 and
 # 2014-12-07, convert them to csv, return them to R, and store them into an R dataframe singlefile.
-ess task stream 125accesslogs '2014-12-07' '2014-12-07' "tail -5 \
+ess stream 125accesslogs '2014-12-07' '2014-12-07' "tail -5 \
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \"' \
 s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\" ' i:res_status sep:' ' \
 i:res_size sep:' \"' s,clf:referrer sep:'\" \"' \
@@ -155,7 +155,7 @@ s,clf:user_agent sep:'\"' X | cat -" #Rinclude #R#singlefile#R#
 
 # Stream the last five lines of the files in category 125accesslogs between dates 2014-11-30 and
 # 2014-12-07, convert them to csv, and save them into R dataframes apachefiles1 and apachefiles2.
-ess task stream 125accesslogs '2014-11-30' '2014-12-07' "tail -5 \
+ess stream 125accesslogs '2014-11-30' '2014-12-07' "tail -5 \
 | logcnv -f,eok - -d ip:ip sep:' ' s:rlog sep:' ' s:rusr sep:' [' i,tim:time sep:'] \"' \
 s,clf:req_line1 sep:' ' s,clf:req_line2 sep:' ' s,clf:req_line3 sep:'\" ' i:res_status sep:' ' \
 i:res_size sep:' \"' s,clf:referrer sep:'\" \"' s,clf:user_agent sep:'\"' X -notitle | cat -" \

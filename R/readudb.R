@@ -23,10 +23,10 @@ read.udb <- function(file, linenumber = "all") {
     else {
       lineold <- ""
     }
-    if (((substr(line, 1, 13) == "ess task exec") && (!grepl("#Rignore",line))) || ((substr(line, 1, 15) == "ess task stream" || substr(line, 1, 9) == "ess query") && (grepl("#Rinclude", line)))) {
+    if (((substr(line, 1, 8) == "ess exec") && (!grepl("#Rignore",line))) || ((substr(line, 1, 10) == "ess stream" || substr(line, 1, 9) == "ess query") && (grepl("#Rinclude", line)))) {
       quotes <- grepRaw("\"", line, all = TRUE)
       aq <- quotes[[length(quotes)]]
-      if (substr(line, 1, 8) == "ess task") {
+      if ((substr(line, 1, 10) == "ess stream") || (substr(line, 1, 8) == "ess exec")) {
       	line <- paste(substr(line, 1, aq - 1), "; echo 'RSTOPHERE'", substr(line, aq, nchar(line)), sep = "")
       }
       else { line <- paste(substr(line, 1, aq), "; echo 'RSTOPHERE'", substr(line, aq + 1, nchar(line)), sep = "") }
@@ -39,7 +39,9 @@ read.udb <- function(file, linenumber = "all") {
         titleindex <- grepRaw("#R#", line, all = TRUE)
         varname <- substr(line, titleindex[[1]] + 3, titleindex[[2]] - 1)
       }
-      t2 <- read.csv(pipe(line, open = "r"), header = colspec, sep = ",", quote = "\"'", comment.char = "#", blank.lines.skip = FALSE, allowEscapes = TRUE, skip = 0)
+      pipedline <- pipe(line, open = "r")
+      t2 <- read.csv(pipedline, header = colspec, sep = ",", quote = "\"'", comment.char = "#", blank.lines.skip = FALSE, allowEscapes = TRUE, skip = 0)
+      close(pipedline)
       index <- 1
       t3 <- NULL
       separate <- grepl(" #Rseparate", line)
