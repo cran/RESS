@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{essQuery
 }
-\description{Query the UDB database and return the results to R.}
+\description{Query the Essentia database and return the results to R.}
 \usage{
 essQuery(essentia, aq="", flags="")
 }
@@ -62,10 +62,10 @@ essQuery is used to directly query the database using a single
 statement. You can call essQuery multiple times to run different
 statements.
 
-However, you can also use read.udb to read all of the statements
+However, you can also use capture.essentia to read all of the statements
 in a file instead.  Thus if you plan to run multiple statements
 that may be somewhat related to each other, it is recommended that
-you use read.udb.
+you use capture.essentia.
 
 }
 \value{
@@ -114,7 +114,7 @@ purchase:2014-09-01:2014-09-15 where articleID>=46", "#Rinclude")
 command3 <- essQuery("ess query", "select count(refID) from \
 purchase:2014-09-01:2014-09-15 where articleID>=46 group by userID", "#Rinclude")
 querystream <- essQuery("ess query", "select * from purchase:*:* where articleID <= 20", "\
-#Rinclude")
+#Rinclude #-notitle")
 
 Then run these commands to view the saved dataframes:
 

@@ -1,7 +1,9 @@
-3d432d0aa0fd1296ae5438326e51a60e *DESCRIPTION
-44c84a05707cf869df9f980a6608076d *NAMESPACE
-ee28dfe04a324d2c7fc8f01faa389c66 *R/essquery.R
-1db4e347bd34219700f6155b6127310d *R/readudb.R
-912be26da21fa36850488242117a2692 *man/RESS-package.Rd
-8a73d345d69918bc103be0adf7e29823 *man/essQuery.Rd
-d3b4b5ccb5af0c663264a3fee416d1cd *man/read.udb.Rd
+31000a77f790c94aca666843fb4cfb2c *DESCRIPTION
+a221fe315eb2c88496ff92bb4a31937d *NAMESPACE
+060cf1c63403b42fcd778d3411e8ed06 *R/captureessentia.R
+2b84518008a488c1ce54a94b043ebbba *R/essQuery.R
+5c156fba5a276e3f0f68db5bfd0c9160 *R/readessentia.R
+aa6d00fd865299d6903e809ed2201bc6 *man/RESS-package.Rd
+511e3927611987b065845edfc45ba3c2 *man/capture.essentia.Rd
+e374e0d86bff41c8fc343a26132cb222 *man/essQuery.Rd
+9b9053e2cca17e60f39428e6bfd1b541 *man/read.essentia.Rd
